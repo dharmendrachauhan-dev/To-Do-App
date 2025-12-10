@@ -4,7 +4,7 @@ import { collectionName, connection } from './dbconfig.js'
 const app = express();
 const Port = 8000;
 
-app.use(express.json());
+app.use(express.json()); //Middleware
 app.post("/add-task", async (req,res)=>{
     const db = await connection();
     const collection = await db.collection(collectionName);
@@ -14,14 +14,6 @@ app.post("/add-task", async (req,res)=>{
     }   else{
         res.send({message:"task added", success:true,result})
     }
-})
-
-
-app.get("/", (req, res) => {
-    res.send({
-        massage:"Basic API done",
-        success:true,
-    })
 })
 
 

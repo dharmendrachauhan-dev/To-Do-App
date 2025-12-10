@@ -1,11 +1,13 @@
-import React from 'react'
+import React from "react";
 
 function AddTask() {
-    return (
-        <>
-        <h1>Add Task</h1>
-        </>
-    )
+  return (
+    <>
+      <form action="">
+        
+      </form>
+    </>
+  );
 }
 
-export default AddTask
+export default AddTask;
