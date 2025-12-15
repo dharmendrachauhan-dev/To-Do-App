@@ -1,4 +1,3 @@
-import React from "react";
 import { useState } from 'react'
 
 function AddTask() {
@@ -9,7 +8,7 @@ function AddTask() {
     let result = await fetch('http://localhost:8000/add-task', {
       method: 'post',
       body:JSON.stringify(taskData),
-      header: {
+      headers: {
         'content-type':'Application/Json'
       }
     })
@@ -35,10 +34,8 @@ function AddTask() {
               />
             </div>
             <div className="flex flex-col">
-              <label htmlFor="discription" className="text-xl text-slate-800">Discription:</label>
+              <label htmlFor="description" className="text-xl text-slate-800">Description:</label>
               <textarea
-                name=""
-                id=""
                 cols="35"
                 rows="4"
                 className="border border-slate-400 outline-none focus:border-emerald-500 rounded px-2 py-2"
