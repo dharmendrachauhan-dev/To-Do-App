@@ -39,8 +39,8 @@ function AddTask() {
                 cols="35"
                 rows="4"
                 className="border border-slate-400 outline-none focus:border-emerald-500 rounded px-2 py-2"
-                placeholder="Enter task discription"
-                onClick={(event)=>setTaskData({...taskData, Description: event.target.value})}
+                placeholder="Enter task description"
+                onChange={(event)=>setTaskData({...taskData , description: event.target.value})}
               ></textarea>
             </div>
             <button 
