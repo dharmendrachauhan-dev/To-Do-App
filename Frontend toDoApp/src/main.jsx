@@ -5,12 +5,14 @@ import '../src/styles/index.css'
 import AddTask from '/src/components/AddTask/AddTask.jsx'
 import List from '/src/components/TaskList/TaskList.jsx'
 import Layout from './Layout.jsx'
+import UpdateTask from './components/Update/UpdateTask.jsx';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<Layout />}>
       <Route path='/' element={<List />}/>
       <Route path='/add' element={<AddTask />}/>
+      <Route path='/update/:id' element={<UpdateTask />}/>
     </Route>
   )
 )

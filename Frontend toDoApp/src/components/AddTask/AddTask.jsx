@@ -47,7 +47,7 @@ function AddTask() {
             className="bg-green-300 w-full cursor-pointer py-2 rounded font-medium text-white"
             onClick={handleAddTask}
             >
-              Add Task
+              Add New Task
             </button>
           </div>
         </div>

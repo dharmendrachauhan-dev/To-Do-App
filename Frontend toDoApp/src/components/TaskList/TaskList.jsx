@@ -1,4 +1,5 @@
 import { Fragment, useState, useEffect } from "react";
+import { Link } from 'react-router-dom';
 
 
 function TaskList() {
@@ -17,12 +18,12 @@ function TaskList() {
   };
 
   const deleteTask = async (id) => {
-    let response = await fetch(`http://localhost:8000/tasks/${id}`, {
+    let item = await fetch(`http://localhost:8000/delete/${id}`, {
       method: "delete"
     })
-    item = await response.json()
+    item = await item.json()
     if(item.success) {
-      console.log("Deleted Succefully")
+      getTaskListData()
     } else{
       console.log("Task Deletion Failed")
     }
@@ -45,12 +46,13 @@ function TaskList() {
             taskData.map((item, index) => {
               return (
                 <Fragment key={item._id}>
-
                   <li className="border col-span-1 font-medium text-lg p-3 border-slate-500">{index + 1}</li>
                   <li className="border col-span-2 font-medium text-lg p-3 border-slate-500">{item.title}</li>
                   <li className="border col-span-4 font-medium text-lg p-3 border-slate-500">{item.description}</li>
-                  <li className="border col-span-1 font-medium text-lg p-3 border-slate-500"><button onClick={() => deleteTask(item._id)} className="bg-red-500 p-1 border rounded border-gray-50 cursor-pointer hover:bg-red-600 transition-color duration-700">Delete</button></li>
-
+                  <li className="border col-span-1 font-medium text-lg p-3 border-slate-500 flex flex-col gap-2">
+                    <button onClick={() => deleteTask(item._id)} className="bg-red-500 p-1 border rounded border-gray-50 cursor-pointer hover:bg-red-600 transition-color duration-700">Delete</button>
+                    <Link to={`update/${item._id}`} className="bg-green-500 p-1 border rounded border-gray-50 cursor-pointer hover:bg-green-600 transition-color duration-700 flex justify-center items-center">Update</Link>
+                  </li>
                 </Fragment>
               );
             })}
