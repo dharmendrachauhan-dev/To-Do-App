@@ -93,6 +93,24 @@ app.delete("/delete/:id", async (req, res) => {
   }
 })
 
+
+// Delete By Using SelectAll Method
+
+app.delete("/delete-selected", async (req, res) =>{
+  const db = await connection();
+  const Ids = req.body;
+  const deleteTaskIds = Ids.map((item) => new ObjectId(item))
+  console.log(Ids)
+
+  const collection = await db.collection(collectionName);
+  const result = await collection.deleteMany({_id:{$in:deleteTaskIds}})
+  if(result){
+    res.send({message: "Task Successfully deleted", success: result})
+  } else{
+    res.send({message: "Try After Sometime", success: false})
+}
+})
+
 app.listen(Port, () => {
   console.log(`Server is started on port ${Port}`);
 });
