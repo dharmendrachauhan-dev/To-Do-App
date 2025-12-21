@@ -78,7 +78,6 @@ app.put('/update-task', async (req, res) => {
   }
 })
 
-
 //DELETE
 
 app.delete("/delete/:id", async (req, res) => {
