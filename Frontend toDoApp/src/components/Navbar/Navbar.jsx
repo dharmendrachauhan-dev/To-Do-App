@@ -1,16 +1,15 @@
-import React from "react";
 import { NavLink , Link } from "react-router-dom";
 
 function Navbar() {
   return (
     <>
       <nav className="bg-gray-900 shadow-lg text-white">
-        <div className="flex justify-between h-17 max-w-7xl m-auto p-4 ">
+        <div className="flex justify-between h-17 max-w-7xl mx-auto p-4 ">
           <div className="text-xl">
            <Link to='/'>To Do App</Link>
           </div>
           <div>
-            <ul className="flex gap-5">
+            <ul className="flex gap-5 justify-center items-center">
               <NavLink
               to="/"
               className={({isActive}) => isActive ? "text-orange-300 text-lg" : "text-white"}
@@ -22,6 +21,12 @@ function Navbar() {
               className={({isActive}) => isActive ? "text-orange-300 text-lg" : "text-white"}
               >
                 Add Task
+              </NavLink>
+              <NavLink
+              to="/signup"
+              className={({isActive}) => isActive ? "text-white bg-purple-500 px-4 py-2 font-semibold tracking-wider rounded duration-400 hover:bg-purple-600" : "text-white bg-purple-500 px-4 py-2 font-semibold tracking-wider rounded duration-400 hover:bg-purple-600"}
+              >
+                Register
               </NavLink>
             </ul>
           </div>

@@ -1,8 +1,10 @@
-import { useState } from 'react'
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom'
 
 function AddTask() {
 
   const [taskData, setTaskData] = useState()
+  const navigate = useNavigate();
   const handleAddTask = async () => {
     console.log(taskData)
     let result = await fetch('http://localhost:8000/add-task', {
@@ -14,7 +16,8 @@ function AddTask() {
     })
     result= await result.json();
     if(result){
-      console.log("new task added")
+      navigate("/")
+      console.log("new task added");
     }
   }
 
@@ -22,8 +25,8 @@ function AddTask() {
     <>
 
         <div className="p-7 max-h-screen flex flex-col items-center justify-center">
-          <div className="border border-slate-400 shadow-slate-300 p-8 flex flex-col gap-4 max-w-md rounded">
-            <h1 className="text-center font-medium text-lg text-gray-700">Add New Task</h1>
+          <div className="border border-slate-400 shadow-slate-300 p-8 flex flex-col w-lg gap-4 rounded">
+            <h1 className="text-center font-bold tracking-wider  text-xl text-gray-700">Add New Task</h1>
             <div className="flex flex-col">
               <label htmlFor="title" className="text-stone-800 text-xl">Title:</label>
               <input
