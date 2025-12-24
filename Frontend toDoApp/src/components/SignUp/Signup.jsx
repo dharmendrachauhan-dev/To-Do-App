@@ -5,6 +5,18 @@ function signup() {
 
   const [userData, setUserData] = useState()
 
+  const handleSignUp = async () => {
+    let response = await fetch('http://localhost:8000/signup',{
+      method: postMessage,
+      body:JSON.stringify(userData),
+      header:{
+        'content-Type':'application/json'
+      }
+    })
+
+    result = await response.json()
+  }
+
   return (
     <>
         <div className="p-7 max-h-screen flex flex-col items-center justify-center">
@@ -43,7 +55,7 @@ function signup() {
             </div>
             <button 
             className="bg-green-300 w-full cursor-pointer py-2 rounded font-medium text-white"
-            onClick={() => console.log(userData)}
+            onClick={handleSignUp}
             >
               Create Account
             </button>

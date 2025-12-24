@@ -4,7 +4,7 @@ import {useState} from 'react'
 
 function Signin() {
 
-  const [userData, setUserData] = useState()
+  const [userData, setUserData] = useState({email: "", password: ""})
 
   return (
     <>
@@ -19,6 +19,9 @@ function Signin() {
                 className="border-2 border-slate-400 rounded px-2 py-2 focus:border-emerald-500 outline-none"
                 placeholder="Enter email"
                 onChange={(event)=>setUserData((prev)=>({...prev, email:event.target.value}))}
+                required
+                value={userData.email}
+                autoComplete='off'
               />
             </div>
             <div className="flex flex-col">
@@ -28,7 +31,9 @@ function Signin() {
                 className="border-2 border-slate-400 rounded px-2 py-2 focus:border-emerald-500 outline-none"
                 required
                 placeholder="Enter Password"
-                onChange={(event)=>setUserData((prev)=>({...prev, password:event.target.value}))}          
+                onChange={(event)=>setUserData((prev)=>({...prev, password:event.target.value}))}   
+                value={userData.password}  
+                autoComplete='off'     
               />
             </div>
             <button 
