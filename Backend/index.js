@@ -10,7 +10,33 @@ const Port = 8000;
 app.use(cors()); // jab backend aur frontend alag alag port pe chalta hai
 app.use(express.json()); //Middleware
 
-// jWT Token
+// JWT Token Login In
+app.post('/login', async (req, res) => {
+  const userData = req.body;
+
+  if(userData.email && userData.password){
+    const db = await connection()
+    const collection = await db.collection(collectionTwo);
+    const result = await collection.findOne({email:userData.email, password:userData.password})
+
+    if (result){
+      jwt.sign(userData, "Google", { expiresIn: "6d" }, (req, res)=>{
+        res.send({
+          message: "You successfully loged in.",
+          success: true,
+          token
+        })
+      })
+    } else{
+      res.send({
+        message: 'login failed',
+        success: false
+      })
+    }
+  } 
+})
+
+// jWT Token Sign Up
 
 app.post("/signup", async (req, res) => {
   const userData = req.body;

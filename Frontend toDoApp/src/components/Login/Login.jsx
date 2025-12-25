@@ -6,6 +6,20 @@ function Signin() {
 
   const [userData, setUserData] = useState({email: "", password: ""})
 
+  const handleLogin = async () => {
+    let response = await fetch('http://localhost:8000/login', {
+      method:'post',
+      body:JSON.stringify(userData),
+      headers:{
+        'Content-Type':'application/json'
+      }
+    })
+    let result = await response.json();
+    if(result){
+      document.cookie= `token=${result.token}`  // space between = sign while set up token 
+    }
+  }
+
   return (
     <>
      <div className="p-7 max-h-screen flex flex-col items-center justify-center">
@@ -38,7 +52,7 @@ function Signin() {
             </div>
             <button 
             className="bg-green-300 w-full cursor-pointer py-2 rounded font-medium text-white"
-            onClick={() => console.log(userData)}
+            onClick={handleLogin}
             >
               Login
             </button>

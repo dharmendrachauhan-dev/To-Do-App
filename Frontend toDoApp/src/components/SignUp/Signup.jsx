@@ -3,18 +3,23 @@ import { useState } from 'react';
 
 function signup() {
 
-  const [userData, setUserData] = useState()
-
+  const [userData, setUserData] = useState();
   const handleSignUp = async () => {
+    // Token Generate Every Whenever you login (Every Time when user login)
     let response = await fetch('http://localhost:8000/signup',{
-      method: postMessage,
+      method: 'post',
       body:JSON.stringify(userData),
-      header:{
+      headers:{
         'content-Type':'application/json'
       }
     })
 
-    result = await response.json()
+    let result = await response.json()
+    if(result){
+      console.log(result)
+      document.cookie=`token = , ${result.token}`  
+    }
+
   }
 
   return (
