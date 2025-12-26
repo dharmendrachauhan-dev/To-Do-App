@@ -3,38 +3,57 @@ import { collectionOne, collectionTwo, connection } from "./dbconfig.js";
 import cors from "cors";
 import { ObjectId } from "mongodb";
 import jwt from "jsonwebtoken";
+import cookieParser from "cookie-parser";
 
 const app = express();
 const Port = 8000;
 
-app.use(cors()); // jab backend aur frontend alag alag port pe chalta hai
+
 app.use(express.json()); //Middleware
+app.use(cors({
+  origin: 'http://localhost:5173',
+  credentials: true
+})); // jab backend aur frontend alag alag port pe chalta hai
+app.use(cookieParser()); // Create prob with cors to solve make obj in cors...
+
 
 // JWT Token Login In
 app.post('/login', async (req, res) => {
   const userData = req.body;
 
-  if(userData.email && userData.password){
-    const db = await connection()
+  if (userData.email && userData.password) {
+    const db = await connection();
     const collection = await db.collection(collectionTwo);
-    const result = await collection.findOne({email:userData.email, password:userData.password})
+    const result = await collection.findOne({email:userData.email, password:userData.password});
 
-    if (result){
-      jwt.sign(userData, "Google", { expiresIn: "6d" }, (req, res)=>{
+    if (result) {
+      jwt.sign(userData, 'Google', { expiresIn: '5d' }, (error, token) => {
         res.send({
-          message: "You successfully loged in.",
           success: true,
+          msg: 'login done',
           token
         })
       })
-    } else{
+    } else {
       res.send({
-        message: 'login failed',
-        success: false
+        msg: 'User not found',
+        success: false,
       })
     }
-  } 
-})
+  } else{
+    res.send({
+      msg: 'Login failed',
+      success: false,
+    })
+  }
+}
+)
+
+
+
+
+
+
 
 // jWT Token Sign Up
 
@@ -85,10 +104,11 @@ app.post("/add-task", async (req, res) => {
   }
 });
 
-//GET
+//GET Task
 
-app.get("/tasks", async (req, res) => {
+app.get("/tasks",verifyJwtToken, async (req, res) => {
   const db = await connection();
+  console.log("cookies test", req.cookies)
   const collection = await db.collection(collectionOne);
   const result = await collection.find().toArray();
   if (result) {
@@ -101,6 +121,23 @@ app.get("/tasks", async (req, res) => {
     res.send({ message: "error try after sometime", success: false });
   }
 });
+
+
+// API Verification Done 
+function verifyJwtToken(req, res, next) {
+  // console.log('verifyJwtToken', req.cookies['token'])
+  const token = req.cookies['token'];
+  jwt.verify(token, 'Google', (error, decoded) => {
+    if(error){
+      return res.send({
+        msg:'Invalid token',
+        success: false
+      })
+    }
+    console.log(decoded) // This give email and password
+    next()
+  })
+}
 
 // Reflect Data to UI
 app.get("/task/:id", async (req, res) => {

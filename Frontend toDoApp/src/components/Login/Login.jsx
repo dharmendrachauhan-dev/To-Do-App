@@ -1,10 +1,22 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import {useState} from 'react'
+import { useEffect } from 'react'
 
 
-function Signin() {
+function Login() {
 
   const [userData, setUserData] = useState({email: "", password: ""})
+  const navigate = useNavigate()
+
+  //jab tak user login hai tab tak use login pe nhi jaane dena hai uske liye uske email ko local storage mei rkha hai
+
+  useEffect(()=>{
+    if (localStorage.getItem('login')){
+      navigate('/')
+    }
+  }, [])
+
+
 
   const handleLogin = async () => {
     let response = await fetch('http://localhost:8000/login', {
@@ -15,8 +27,12 @@ function Signin() {
       }
     })
     let result = await response.json();
-    if(result){
-      document.cookie= `token=${result.token}`  // space between = sign while set up token 
+    if(result.success){
+      document.cookie=`token=${result.token}`  // space between = sign while set up token 
+      localStorage.setItem('login', userData.email)
+      navigate('/')
+    }else {
+      alert('Wrong Email Or Password')
     }
   }
 
@@ -62,4 +78,4 @@ function Signin() {
   )
 }
 
-export default Signin
+export default Login

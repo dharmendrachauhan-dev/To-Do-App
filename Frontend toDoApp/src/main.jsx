@@ -8,12 +8,13 @@ import Layout from './Layout.jsx'
 import UpdateTask from './components/Update/UpdateTask.jsx';
 import Signup from './components/Signup/Signup.jsx'
 import Login from './components/Login/Login.jsx'
+import Protected from './components/Protected/Protected.jsx';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<Layout />}>
-      <Route path='/' element={<List />}/>
-      <Route path='/add' element={<AddTask />}/>
+      <Route path='/' element={<Protected><List /></Protected>}/>
+      <Route path='/add' element={<Protected><AddTask /></Protected>}/>
       <Route path='/update/:id' element={<UpdateTask />}/>
       <Route path='/signup' element={<Signup />}/>
       <Route path='/login' element={<Login />}/>

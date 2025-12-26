@@ -12,7 +12,9 @@ function TaskList() {
   }, []);
 
   const getTaskListData = async () => {
-    let list = await fetch("http://localhost:8000/tasks");
+    let list = await fetch("http://localhost:8000/tasks",{
+      credentials: 'include' // ab jo bhi cookie vo backend mei send ho jayengi with all api
+    });
     list = await list.json();
     // console.log(list)
     if (list.success) {

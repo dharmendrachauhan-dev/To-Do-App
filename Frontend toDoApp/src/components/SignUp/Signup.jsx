@@ -1,9 +1,18 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import { useEffect } from 'react';
 
 function signup() {
 
   const [userData, setUserData] = useState();
+  
+  const navigate = useNavigate()
+  useEffect(()=>{
+    if(localStorage.getItem('login')){
+      navigate('/')
+    }
+  },[])
+
   const handleSignUp = async () => {
     // Token Generate Every Whenever you login (Every Time when user login)
     let response = await fetch('http://localhost:8000/signup',{
@@ -15,9 +24,13 @@ function signup() {
     })
 
     let result = await response.json()
-    if(result){
+    if(result.success){
       console.log(result)
-      document.cookie=`token = , ${result.token}`  
+      document.cookie=`token = , ${result.token}` 
+      localStorage.setItem('login', userData.email)
+      navigate('/')
+    } else{
+      alert('Try after sometime')
     }
 
   }
