@@ -1,8 +1,29 @@
-import { useState } from "react";
-import { NavLink , Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { NavLink , Link, useNavigate } from "react-router-dom";
 
 function Navbar() {
   const [login, setLogin] = useState(localStorage.getItem('login'))
+
+  const navigate = useNavigate()
+  const Logout = () => {
+    localStorage.removeItem('login')
+    setLogin(null)
+    setTimeout(() => {
+      navigate('/login')
+    }, 0);
+  }
+
+  useEffect(()=>{
+    const handleStorage = () => {
+      setLogin(localStorage.getItem('login'))
+    }
+
+    window.addEventListener('loacalStorage-change', handleStorage)
+    return () => {
+      window.removeEventListener('loacalStorage-change', handleStorage)
+    }
+  },[])
+
   return (
     <>
       <nav className="bg-gray-900 shadow-lg text-white">
@@ -30,7 +51,7 @@ function Navbar() {
               </NavLink>
 
               <NavLink
-              to="/"
+              onClick={Logout}
               className={({isActive}) => isActive ? "text-white bg-purple-500 px-4 py-2 font-semibold tracking-wider rounded duration-400 hover:bg-purple-600" : "text-white bg-purple-500 px-4 py-2 font-semibold tracking-wider rounded duration-400 hover:bg-purple-600"}
               >
                 Logout

@@ -30,6 +30,7 @@ function Login() {
     if(result.success){
       document.cookie=`token=${result.token}`  // space between = sign while set up token 
       localStorage.setItem('login', userData.email)
+      window.dispatchEvent(new Event('loacalStorage-change'))
       navigate('/')
     }else {
       alert('Wrong Email Or Password')

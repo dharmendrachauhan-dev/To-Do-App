@@ -4,6 +4,7 @@ import cors from "cors";
 import { ObjectId } from "mongodb";
 import jwt from "jsonwebtoken";
 import cookieParser from "cookie-parser";
+import verifyJwtToken from './JWT/jwtFunc.js'
 
 const app = express();
 const Port = 8000;
@@ -49,12 +50,6 @@ app.post('/login', async (req, res) => {
 }
 )
 
-
-
-
-
-
-
 // jWT Token Sign Up
 
 app.post("/signup", async (req, res) => {
@@ -84,7 +79,7 @@ app.post("/signup", async (req, res) => {
 
 // POST
 
-app.post("/add-task", async (req, res) => {
+app.post("/add-task",verifyJwtToken , async (req, res) => {
   try {
     const db = await connection();
     const collection = await db.collection(collectionOne);
@@ -106,7 +101,7 @@ app.post("/add-task", async (req, res) => {
 
 //GET Task
 
-app.get("/tasks",verifyJwtToken, async (req, res) => {
+app.get("/tasks",verifyJwtToken , async (req, res) => {
   const db = await connection();
   console.log("cookies test", req.cookies)
   const collection = await db.collection(collectionOne);
@@ -123,24 +118,8 @@ app.get("/tasks",verifyJwtToken, async (req, res) => {
 });
 
 
-// API Verification Done 
-function verifyJwtToken(req, res, next) {
-  // console.log('verifyJwtToken', req.cookies['token'])
-  const token = req.cookies['token'];
-  jwt.verify(token, 'Google', (error, decoded) => {
-    if(error){
-      return res.send({
-        msg:'Invalid token',
-        success: false
-      })
-    }
-    console.log(decoded) // This give email and password
-    next()
-  })
-}
-
 // Reflect Data to UI
-app.get("/task/:id", async (req, res) => {
+app.get("/task/:id",verifyJwtToken ,  async (req, res) => {
   const db = await connection();
   const collection = await db.collection(collectionOne);
   const id = req.params.id;
@@ -154,7 +133,7 @@ app.get("/task/:id", async (req, res) => {
 
 // PUT
 
-app.put("/update-task", async (req, res) => {
+app.put("/update-task",verifyJwtToken , async (req, res) => {
   const db = await connection();
   const collection = await db.collection(collectionOne);
   const { _id, ...fields } = req.body;
@@ -169,7 +148,7 @@ app.put("/update-task", async (req, res) => {
 
 //DELETE
 
-app.delete("/delete/:id", async (req, res) => {
+app.delete("/delete/:id",verifyJwtToken , async (req, res) => {
   const db = await connection();
   const id = req.params.id;
   const collection = await db.collection(collectionOne);
@@ -183,7 +162,7 @@ app.delete("/delete/:id", async (req, res) => {
 
 // Delete By Using SelectAll Method
 
-app.delete("/delete-selected", async (req, res) => {
+app.delete("/delete-selected", verifyJwtToken, async (req, res) => {
   const db = await connection();
   const Ids = req.body;
   const deleteTaskIds = Ids.map((item) => new ObjectId(item));

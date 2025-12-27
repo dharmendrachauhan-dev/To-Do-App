@@ -26,7 +26,7 @@ function UpdateTask() {
 
   if (!taskData) {
   return <p className="text-center mt-10">Loading...</p>;
-  }  // best practice
+  } // best practice
 
   const updateTask = async () => {
     console.log("function called", taskData)
@@ -36,12 +36,15 @@ function UpdateTask() {
       body: JSON.stringify(taskData),
       headers:{
         'content-type': 'application/Json'
-      }
+      },
+      credentials: 'include'
      }
     );
     task = await task.json();
-    if(task){
+    if(task.success){
       navigate('/')
+    } else{
+      alert('Try after sometime.')
     }
   }
 

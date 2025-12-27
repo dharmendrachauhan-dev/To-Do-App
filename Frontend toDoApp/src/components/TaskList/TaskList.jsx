@@ -19,18 +19,21 @@ function TaskList() {
     // console.log(list)
     if (list.success) {
       setTaskData(list.result); //payload .result
+    } else{
+      alert('Try after sometime.')
     }
   };
 
   const deleteTask = async (id) => {
     let item = await fetch(`http://localhost:8000/delete/${id}`, {
-      method: "delete"
+      method: "delete",
+      credentials: 'include'
     })
     item = await item.json()
     if(item.success) {
       getTaskListData()
     } else{
-      console.log("Task Deletion Failed")
+      alert("try after sometime")
     }
   }
 
@@ -62,12 +65,15 @@ function TaskList() {
         body: JSON.stringify(selectedTask),
         headers: {
             'Content-Type':'application/json'
-        }
+        },
+        credentials: 'include'
       }
     );
     item = await item.json()
     if (item.success){
       getTaskListData()
+    } else{
+      alert('Try after Sometime')
     }
   }
 
